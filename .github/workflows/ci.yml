@@ -20,3 +20,6 @@ jobs:
     - name: Web build
       run: npm run build
       working-directory: DotnetTemplate.Web
+    - name: TypeScript linting
+      run: npm run lint
+      working-directory: DotnetTemplate.Web
