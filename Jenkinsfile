@@ -1,7 +1,16 @@
 pipeline {
     agent none
 
-    stages {
+    stages {			
+        stage('C# build') {
+			agent {
+				docker { image 'mcr.microsoft.com/dotnet/core/sdk:3.1' }
+			}
+            steps {
+				sh 'dotnet build'
+            }
+        }
+		
         stage('Install web dependencies') {
 			agent {
 				docker { image 'node:14-alpine' }
@@ -46,15 +55,6 @@ pipeline {
 				dir("DotnetTemplate.Web") {					
 					sh 'npm t'
 				}
-            }
-        }
-		
-        stage('C# build') {
-			agent {
-				docker { image 'microsoft-dotnet-core-sdk' }
-			}
-            steps {
-				sh 'dotnet build'
             }
         }
     }
