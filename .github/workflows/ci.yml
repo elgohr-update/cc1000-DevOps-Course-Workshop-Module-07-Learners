@@ -16,9 +16,7 @@ jobs:
       run: dotnet test
     - name: Install web dependencies
       run: npm install
-      with:
-        working-directory: DotnetTemplate.Web
+      working-directory: DotnetTemplate.Web
     - name: Web build
       run: npm run build
-      with:
-        working-directory: DotnetTemplate.Web
+      working-directory: DotnetTemplate.Web
