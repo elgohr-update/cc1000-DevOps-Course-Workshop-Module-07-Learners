@@ -48,5 +48,14 @@ pipeline {
 				}
             }
         }
+		
+        stage('C# build') {
+			agent {
+				docker { image 'microsoft-dotnet-core-sdk' }
+			}
+            steps {
+				sh 'dotnet build'
+            }
+        }
     }
 }
