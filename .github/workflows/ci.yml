@@ -12,3 +12,5 @@ jobs:
         dotnet-version: '3.1.x'
     - name: C# build
       run: dotnet build
+    - name: C# tests
+      run: dotnet test
