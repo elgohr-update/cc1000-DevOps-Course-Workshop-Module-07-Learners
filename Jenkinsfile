@@ -1,5 +1,9 @@
 pipeline {
     agent none
+	
+	environment {
+		DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
+	}
 
     stages {			
         stage('C# build') {
@@ -17,9 +21,6 @@ pipeline {
 			}
             steps {
 				dir("DotnetTemplate.Web") {
-					// Needed as get SSL failure otherwise. May be due to wrong system date/time in container.
-					sh 'npm config set strict-ssl false && npm config set unsafe-perm true && npm config set registry http://registry.npmjs.org/'
-					
 					sh 'npm install'
 				}
             }
