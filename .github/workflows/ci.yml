@@ -39,9 +39,9 @@ jobs:
       run: npm t
       working-directory: ./DotnetTemplate.Web
 
-    - name: enable Docker layer caching
-      uses: satackey/action-docker-layer-caching@v0.0.8
-      continue-on-error: true
+    # - name: enable Docker layer caching
+    #   uses: satackey/action-docker-layer-caching@v0.0.8
+    #   continue-on-error: true
 
     - name: build and publish
       id: build-and-publish-docker
@@ -60,5 +60,5 @@ jobs:
         heroku_app_name: "dotnet-template"
         heroku_email: "reg@monexa.co.uk"
         usedocker: true
-        healthcheck: "https://dotnet-template.herokuapp.com"
+        healthcheck: "https://dotnet-template.herokuapp-876876.com"
         rollbackonhealthcheckfailed: true
