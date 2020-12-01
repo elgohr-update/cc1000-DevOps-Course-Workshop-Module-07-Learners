@@ -6,30 +6,43 @@ jobs:
     runs-on: ubuntu-latest      # Sets the build environment a machine with the latest Ubuntu installed
     steps:
     - uses: actions/checkout@v2 # Adds a step to checkout the repository code
+
     - uses: actions/setup-dotnet@v1 # Adds a step to checkout the repository code
       with:
         dotnet-version: '3.1.x'
+
     - uses: actions/setup-node@v1
       with:
         node-version: '14'
+
     - name: dotnet build
       run: dotnet build
+
     - name: dotnet test
       id: dotnet-test
       run: dotnet test
+
     - name: npm ci
       run: npm ci
       working-directory: ./DotnetTemplate.Web
+
     - name: npm build
       run: npm run build
       working-directory: ./DotnetTemplate.Web
+
     - name: npm lint
       run: npm run lint
       working-directory: ./DotnetTemplate.Web
+
     - name: npm test
       id: npm-test
       run: npm t
       working-directory: ./DotnetTemplate.Web
+
+    - name: enable Docker layer caching
+      uses: satackey/action-docker-layer-caching@v0.0.8
+      continue-on-error: true
+
     - name: build and publish
       id: build-and-publish-docker
       uses: elgohr/Publish-Docker-Github-Action@master
@@ -37,6 +50,7 @@ jobs:
         name: cree1000/dotnet-template
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
     - name: push to heroku
       id: push-to-heroku
       uses: akhileshns/heroku-deploy@v3.6.8
@@ -46,6 +60,7 @@ jobs:
         heroku_app_name: "dotnet-template"
         heroku_email: "reg@monexa.co.uk"
         usedocker: true
+
     - name: Check the deployed service URL
       uses: jtalk/url-health-check-action@v1.2
       if: github.ref == 'refs/heads/main'
