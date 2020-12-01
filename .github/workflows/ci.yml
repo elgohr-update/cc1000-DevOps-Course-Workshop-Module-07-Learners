@@ -40,6 +40,7 @@ jobs:
     - name: push to heroku
       id: push-to-heroku
       uses: akhileshns/heroku-deploy@v3.6.8
+      if: github.ref == 'refs/heads/main'
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_app_name: "dotnet-template"
