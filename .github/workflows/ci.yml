@@ -1,31 +1,42 @@
 name: Continuous Integration
-on:
-  push:
-    branches:
-      - main
-
+on: [push]                    # Will make the workflow run every time you push to any branch
 jobs:
   build:
     name: Build and test
     runs-on: ubuntu-latest      # Sets the build environment a machine with the latest Ubuntu installed
+    env:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_USERNAME }}
     steps:
     - uses: actions/checkout@v2 # Adds a step to checkout the repository code
-    - uses: actions/setup-dotnet@v1
+    - uses: actions/setup-dotnet@v1 # Adds a step to checkout the repository code
       with:
         dotnet-version: '3.1.x'
-    - name: C# build
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14'
+    - name: dotnet build
       run: dotnet build
-    - name: C# tests
+    - name: dotnet test
+      id: dotnet-test
       run: dotnet test
-    - name: Install web dependencies
-      run: npm install
-      working-directory: DotnetTemplate.Web
-    - name: Web build
+    - name: npm ci
+      run: npm ci
+      working-directory: ./DotnetTemplate.Web
+    - name: npm build
       run: npm run build
-      working-directory: DotnetTemplate.Web
-    - name: TypeScript linting
+      working-directory: ./DotnetTemplate.Web
+    - name: npm lint
       run: npm run lint
-      working-directory: DotnetTemplate.Web
-    - name: Web tests
+      working-directory: ./DotnetTemplate.Web
+    - name: npm test
+      id: npm-test
       run: npm t
-      working-directory: DotnetTemplate.Web
+      working-directory: ./DotnetTemplate.Web
+    - name: build and publish
+      id: build-and-publish-docker
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: cree1000/dotnet-template
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
