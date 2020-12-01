@@ -46,3 +46,10 @@ jobs:
         heroku_app_name: "dotnet-template"
         heroku_email: "reg@monexa.co.uk"
         usedocker: true
+    - name: Check the deployed service URL
+      uses: jtalk/url-health-check-action@v1.2
+      if: github.ref == 'refs/heads/main'
+      with:
+        url: https://dotnet-template.herokuapp.com
+        max-attempts: 3
+        retry-delay: 5s
