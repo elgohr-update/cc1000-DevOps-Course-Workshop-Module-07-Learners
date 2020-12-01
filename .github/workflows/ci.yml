@@ -60,5 +60,5 @@ jobs:
         heroku_app_name: "dotnet-template"
         heroku_email: "reg@monexa.co.uk"
         usedocker: true
-        healthcheck: "https://dotnet-template.herokuapp-876876.com"
+        healthcheck: "https://dotnet-template.herokuapp.com"
         rollbackonhealthcheckfailed: true
